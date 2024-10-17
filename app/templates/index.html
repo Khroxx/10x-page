@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ziele Übersicht</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src=""></script>
+</head>
+<body>
+    <div class="btn-container">
+        <a href="{{ url_for('main.add_ziel_form') }}" class="btn">Ziel hinzufügen</a>
+        <a href="{{ url_for('main.get_liste') }}" class="btn">Grafische Auswertung</a>
+    </div>
+    <h1>TEX 10 Tabelle</h1>
+    <table>
+        <tr>
+            <th>Abteilung</th>
+            <th>Aussage</th>
+            <th>Kriterium</th>
+            <th>Bewertung</th>
+            <th>Einschätzung</th>
+            <th>Geändert</th>
+            <th>Kommentar</th>
+            <th>Author</th>
+        </tr>
+        {% for ziel in ziele %}
+        <tr>
+            <td>{{ ziel.abteilung }}</td>
+            <td>{{ ziel.aussage }}</td>
+            <td>{{ ziel.kriterium }}</td>
+            <td>{{ ziel.bewertung }}</td>
+            <td>{{ ziel.einschätzung }}</td>
+            <td>{{ ziel.geändert }}</td>
+            <td>{{ ziel.kommentar }}</td>
+            <td>{{ ziel.author }}</td>
+            <td>E</td>
+            <td>D</td>
+            <td>aktualisieren=</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

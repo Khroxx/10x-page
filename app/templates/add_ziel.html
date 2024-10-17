@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Neues Ziel hinzufügen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <h1>Neues Ziel hinzufügen</h1>
+    <form action="{{ url_for('main.submit_ziel') }}" method="POST">
+        <label for="abteilung">Abteilung:</label>
+        <select id="abteilung" name="abteilung" required>
+            {% for abteilung in abteilungen %}
+                <option value="{{ abteilung }}">{{ abteilung }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="aussage">Aussage:</label>
+        <input type="text" id="aussage" name="aussage" required><br>
+
+        <label for="kriterium">Kriterium:</label>
+        <input type="text" id="kriterium" name="kriterium" required><br>
+
+        <label for="bewertung">Bewertung:</label>
+        <select id="bewertung" name="bewertung" required>
+            {% for i in range(1, 11) %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="einschätzung">Einschätzung:</label>
+        <input type="text" id="einschätzung" name="einschätzung" required><br>
+
+        <label for="kommentar">Kommentar:</label>
+        <input type="text" id="kommentar" name="kommentar"><br>
+
+        <label for="author">Author:</label>
+        <select id="author" name="author" required>
+            {% for author in authors %}
+                <option value="{{ author }}">{{ author }}</option>
+            {% endfor %}
+        </select><br>
+
+        <button type="submit">Ziel hinzufügen</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste + Chart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/liste.css') }}">
+    <script src="{{ url_for('static', filename='js/sortTable.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/toggleView.js') }}" defer></script>
+</head>
+<body>
+    <div>
+        <button id="table-button">Aktuelle Ziele</button>
+        <button id="chart-button">Historische Auswertung</button>
+    </div>
+    <div id="table-view">
+        <table>
+            <thead>
+                <tr>
+                    <th>Abteilung</th>
+                    <th>Aussage</th>
+                    <th>Kriterium</th>
+                    <th>Bewertung</th>
+                    <th>Einschätzung</th>
+                    <th>Geändert</th>
+                    <th>Kommentar</th>
+                    <th>Author</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <div id="chart-view" style="display:none;"></div>
+</body>
+</html>
