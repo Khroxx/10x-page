@@ -22,4 +22,9 @@ cd 10x-page/
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
+flask db init
+flask db migrate -m "first migration"
+flask db upgrade
+python run.py
 ```
+The Server is now up and running 
