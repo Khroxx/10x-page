@@ -19,10 +19,8 @@ EXIT;
 3. install:
 ```bash
 cd 10x-page/
-# pip install pipenv
-python3 -m venv env
-source env/bin/activate
-pip install -r requirements.txt
+pipenv install
+pipenv shell
 flask db init
 flask db migrate -m "first migration"
 flask db upgrade
