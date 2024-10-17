@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Ziele Übersicht</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src=""></script>
 </head>
 <body>
@@ -24,8 +23,18 @@
             <th>Kommentar</th>
             <th>Author</th>
         </tr>
-        {% for ziel in ziele %}
         <tr>
+            <th><input type="search" name="searchAbteilung" id="searchAbteilung" placeholder="Suche"></th>
+            <th><input type="search" name="searchAussage" id="searchAussage" placeholder="Suche"></th>
+            <th><input type="search" name="searchKriterium" id="searchKriterium" placeholder="Suche"></th>
+            <th></th>
+            <th><input type="search" name="searchEinschätzung" id="searchEinschätzung" placeholder="Suche"></th>
+            <th></th>
+            <th><input type="search" name="searchKommentar" id="searchKommentar" placeholder="Suche"></th>
+            <th><input type="search" name="searchAuthor" id="searchAuthor" placeholder="Suche"></th>
+        </tr>
+        {% for ziel in ziele %}
+        <tr class="{% if loop.index0 % 2 == 0 %}first-td-child{% else %}second-td-child{% endif %}">
             <td>{{ ziel.abteilung }}</td>
             <td>{{ ziel.aussage }}</td>
             <td>{{ ziel.kriterium }}</td>
@@ -36,7 +45,7 @@
             <td>{{ ziel.author }}</td>
             <td>E</td>
             <td>D</td>
-            <td>aktualisieren=</td>
+            <td>A</td>
         </tr>
         {% endfor %}
     </table>

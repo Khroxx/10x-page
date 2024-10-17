@@ -15,12 +15,24 @@ def get_table_data():
 @main.route('/liste', methods=['GET']) # grafische Auswertung
 def get_liste():
     ziele = Ziel.query.all()
-    return render_template('liste.html', ziele=ziele)
+    return render_template('liste.html', ziele=ziele, abteilungen=ABTEILUNGEN_CHOICES)
+
+
+@main.route('/api/ziele')
+def get_ziele():
+    ziele = Ziel.query.order_by(Ziel.geändert.desc()).all()
+    data = [{
+        'datum': ziel.geändert.strftime('%d-%m-%Y'),
+        'bewertung': ziel.bewertung,
+        'abteilung': ziel.abteilung
+    } for ziel in ziele]
+    return jsonify(data)
 
 
 @main.route('/add-ziel-form', methods=['GET']) # Um ein Ziel hinzuzufügen
 def add_ziel_form():
-    return render_template('add_ziel.html', abteilungen=ABTEILUNGEN_CHOICES, authors=PERSONAL_CHOICES)
+    return render_template('add_ziel.html', abteilungen=ABTEILUNGEN_CHOICES, authors=PERSONAL_CHOICES,
+                           bewertungen=BEWERTUNG_CHOICES)
 
 
 @main.route('/submit-ziel', methods=['POST'])
@@ -28,7 +40,7 @@ def submit_ziel():
     abteilung = request.form.get('abteilung')
     aussage = request.form.get('aussage')
     kriterium = request.form.get('kriterium')
-    bewertung = request.form.get('bewertung')
+    bewertung = int(request.form.get('bewertung'))
     einschätzung = request.form.get('einschätzung')
     geändert = datetime.now(timezone.utc)
     kommentar = request.form.get('kommentar')

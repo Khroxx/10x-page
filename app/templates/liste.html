@@ -1,37 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste + Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+			  src="https://code.jquery.com/jquery-3.7.1.js"
+			  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+			  crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/liste.css') }}">
-    <script src="{{ url_for('static', filename='js/sortTable.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='js/toggleView.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    <!-- <script src="{{ url_for('static', filename='js/toggleView.js') }}" defer></script> -->
 </head>
+
 <body>
-    <div>
-        <button id="table-button">Aktuelle Ziele</button>
-        <button id="chart-button">Historische Auswertung</button>
+    <div class="top-btns">
+        <button class="list-btns" id="table-button">Aktuelle Ziele</button>
+        <button class="list-btns" id="chart-button">Historische Auswertung</button>
     </div>
     <div id="table-view">
-        <table>
-            <thead>
-                <tr>
-                    <th>Abteilung</th>
-                    <th>Aussage</th>
-                    <th>Kriterium</th>
-                    <th>Bewertung</th>
-                    <th>Einschätzung</th>
-                    <th>Geändert</th>
-                    <th>Kommentar</th>
-                    <th>Author</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div>
+            <a href="{{ url_for('main.add_ziel_form') }}" class="add-ziel">+</a>
+        </div>
+        <div class="totalscore">
+            Aktueller Gesamtscore:
+        </div>
+        <div>
+            <!-- <label for="abteilungen">Alle Abteilungen</label> -->
+            <select id="abteilung" name="abteilung" required>
+                {% for abteilung in abteilungen %}
+                <option value="{{ abteilung }}">{{ abteilung }}</option>
+                {% endfor %}
+            </select>
+            <input type="search" name="" id="">
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Abteilung / Rubrik</th>
+                        <th>Aussage</th>
+                        <th>Status</th>
+                        <th>Wie stellen wir fest ob erreicht?</th>
+                        <th>letzte Änderung / Kommentar</th>
+                        <th>Datum letzte Änderung</th>
+                        <th>Änderer</th>
+                        <th>Sonstiges</th>
+                    </tr>
+                    {% for ziel in ziele %}
+                    <tr class="{% if loop.index0 % 2 == 0 %}first-td-child{% else %}second-td-child{% endif %}">
+                        <td>{{ ziel.abteilung }}</td>
+                        <td>{{ ziel.aussage }}</td>
+                        <td>{{ ziel.bewertung }}</td>
+                        <td>{{ ziel.kriterium }}</td>
+                        <td>{{ ziel.einschätzung }}</td>
+                        <td>{{ ziel.geändert }}</td>
+                        <td>{{ ziel.author }}</td>
+                        <td>{{ ziel.kommentar }}</td>
+                        <td><img class="table-img" src="{{ url_for('static', filename='img/edit.png')}}" alt="E"></td>
+                        <td><img class="table-img" src="{{ url_for('static', filename='img/delete.png')}}" alt="D"></td>
+                        <td><img class="table-img" src="{{ url_for('static', filename='img/refresh.webp')}}" alt="R">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </thead>
+                <tbody>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div id="chart-view" style="display:none;"></div>
+    <div id="chart-view">
+        <div class="auswahl-container">
+            <div class="auswahl-half">
+                <h1>Abteilung (Mehrfachauswahl):</h1>
+                <select id="abteilung-select" multiple>
+                    {% for ziel in ziele %}
+                        <option value="{{ ziel.abteilung }}">{{ ziel.abteilung }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div  class="auswahl-half">
+                <h1>Von:</h1>
+                <input type="date" name="" id="">
+                <h1>Bis:</h1>
+                <input type="date" name="" id="">
+            </div>
+        </div>
+        <canvas id="myChart"></canvas>
+    </div>
 </body>
+
 </html>

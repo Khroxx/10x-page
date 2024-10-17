@@ -24,6 +24,8 @@ PERSONAL_CHOICES = [
     "Bari"
 ]
 
+BEWERTUNG_CHOICES = list(range(1, 11))
+
 class Ziel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     abteilung = db.Column(String(50), default="Allgemein", nullable=False)

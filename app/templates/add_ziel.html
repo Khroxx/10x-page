@@ -23,7 +23,7 @@
 
         <label for="bewertung">Bewertung:</label>
         <select id="bewertung" name="bewertung" required>
-            {% for i in range(1, 11) %}
+            {% for i in bewertungen %}
                 <option value="{{ i }}">{{ i }}</option>
             {% endfor %}
         </select><br>

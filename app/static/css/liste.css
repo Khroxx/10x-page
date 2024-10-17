@@ -1,0 +1,66 @@
+body{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background-color: rgb(199, 198, 198);
+    gap: 40px;
+}
+.top-btns{
+    /* padding: 0 10px; */
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+.list-btns{
+    max-width: 50%;
+    width: 50%;
+    padding: 10px;
+
+}
+.add-ziel {
+    background-color: blue;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 10px;
+}
+table{
+    width: 100%;
+    border-spacing: 0;
+    text-align: start;
+}
+th{
+    text-align: start;
+}
+tr{
+    text-align: start;
+}
+.totalscore{
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid grey;
+    background-color: rgb(203, 202, 202);
+}
+.first-td-child{
+    background-color: white;
+}
+.second-td-child{
+    background-color: transparent;
+}
+.table-img{
+    width: 20px;
+    height: 20px;
+}
+.auswahl-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+}
+.auswahl-half{
+    width: 50%;
+    max-width: 50%;
+}

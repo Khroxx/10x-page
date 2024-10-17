@@ -1,5 +1,6 @@
 body{
     background-color: rgb(199, 198, 198);
+    
 }
 .btn-container{
     position: absolute;
@@ -15,10 +16,20 @@ body{
 }
 table{
     width: 100%;
+    border-spacing: 0;
+    text-align: start;
 }
 th{
+    text-align: start;
     font-weight: bold;
 }
 td{
     font-weight: 300;
+    border-spacing: 0;
+}
+.first-td-child{
+    background-color: white;
+}
+.second-td-child{
+    background-color: transparent;
 }
