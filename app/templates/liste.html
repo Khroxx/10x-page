@@ -11,7 +11,7 @@
 			  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 			  crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/liste.css') }}">
-    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/liste.js') }}" defer></script>
     <!-- <script src="{{ url_for('static', filename='js/toggleView.js') }}" defer></script> -->
 </head>
 
@@ -61,7 +61,10 @@
                         <td>{{ ziel.kommentar }}</td>
                         <td><img class="table-img" src="{{ url_for('static', filename='img/edit.png')}}" alt="E"></td>
                         <td><img class="table-img" src="{{ url_for('static', filename='img/delete.png')}}" alt="D"></td>
-                        <td><img class="table-img" src="{{ url_for('static', filename='img/refresh.webp')}}" alt="R">
+                        <td>
+                            <a href="{{ url_for('main.get_ziel_historie', ziel_id=ziel.id) }}" class="history-link" data-has-history="{{ 'true' if ziel.historie else 'false'}}">
+                                <img class="table-img" src="{{ url_for('static', filename='img/refresh.webp')}}" alt="R">
+                            </a>
                         </td>
                     </tr>
                     {% endfor %}

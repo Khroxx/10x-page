@@ -1,4 +1,5 @@
 from flask import Blueprint, redirect, url_for, request, jsonify, render_template
+from sqlalchemy import func
 from .models import *
 from . import db
 
@@ -15,7 +16,9 @@ def get_table_data():
 @main.route('/liste', methods=['GET']) # grafische Auswertung
 def get_liste():
     ziele = Ziel.query.all()
-    return render_template('liste.html', ziele=ziele, abteilungen=ABTEILUNGEN_CHOICES)
+    durchschnitt = db.session.query(func.avg(Ziel.bewertung)).scalar()
+    durchschnitt = round(durchschnitt, 2)  
+    return render_template('liste.html', ziele=ziele, abteilungen=ABTEILUNGEN_CHOICES, durchschnitt=durchschnitt)
 
 
 @main.route('/api/ziele')
@@ -96,3 +99,9 @@ def delete_ziel(id):
     db.session.delete(ziel)
     db.session.commit()
     return jsonify({"message": "Ziel gelöscht"}), 200
+
+@main.route('/ziel/<int:ziel_id>/historie', methods=['GET'])
+def get_ziel_historie(ziel_id):
+    ziel = Ziel.query.get_or_404(ziel_id)
+    historie = ZielHistorie.query.filter_by(ziel_id=ziel_id).order_by(ZielHistorie.geändert.desc()).all()
+    return render_template('ziel_historie.html', ziel=ziel, historie=historie)

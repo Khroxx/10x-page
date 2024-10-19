@@ -81,4 +81,12 @@ $(document).ready(function() {
     updateChart();
 });
 
-//Tabellensortieren
+// if ziel has no history, alerts user and does not open history
+$(document).ready(function() {
+    $('.history-link').on('click', function(event) {
+        if ($(this).data('has-history') === 'false') {
+            event.preventDefault();
+            alert('Dieses Ziel hat keine Historie.');
+        }
+    });
+});

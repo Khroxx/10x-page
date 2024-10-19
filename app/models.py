@@ -26,6 +26,7 @@ PERSONAL_CHOICES = [
 
 BEWERTUNG_CHOICES = list(range(1, 11))
 
+
 class Ziel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     abteilung = db.Column(String(50), default="Allgemein", nullable=False)
@@ -43,4 +44,14 @@ class Ziel(db.Model):
             raise ValueError("Rating must be between 1 and 10")
         return value
 
+class ZielHistorie(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    ziel_id = db.Column(db.Integer, db.ForeignKey('ziel.id'), nullable=False)
+    geändert = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    changed_by = db.Column(String(50), default=None, nullable=False)
+    bewertung = db.Column(db.Integer, nullable=False)
+    comment = db.Column(db.String(255), nullable=False)
+    abteilung = db.Column(db.String(50), nullable=False)
+    
+    ziel = db.relationship('Ziel', backref=db.backref('historie', lazy=True))
 

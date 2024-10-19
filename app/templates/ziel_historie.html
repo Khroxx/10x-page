@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Historie von {{ ziel.id }}</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+    <script src="{{ url_for('static', filename='js/history.js') }}" defer></script>
+</head>
+
+<body>
+    <h1>Ziel Historie</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>{{ ziel.abteilung }}</th>
+            </tr>
+            <tr>
+                <th>Änderung</th>
+                <th>Änderer</th>
+                <th>Bewertung</th>
+                <th>Kommentar</th>
+                <th>Anregung</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for eintrag in historie %}
+            <tr
+                class="{% if loop.index > 1 and eintrag.bewertung != historie[loop.index0 - 1].bewertung %}changed{% endif %}">
+                <td>{{ eintrag.geändert.strftime('%d-%m-%Y') }}</td>
+                <td>{{ eintrag.changed_by }}</td>
+                <td>{{ eintrag.abteilung }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
