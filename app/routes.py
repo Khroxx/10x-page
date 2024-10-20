@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, url_for, request, jsonify, render_template
 from sqlalchemy import func
 from .models import *
+from datetime import datetime, timezone
 from . import db
 
 
@@ -78,14 +79,25 @@ def edit_ziel(id):
     if not ziel:
         return jsonify({"message": "Ziel nicht gefunden"}), 404
     
-    ziel.abteilung = data['abteilung']
-    ziel.aussage = data['aussage']
-    ziel.kriterium = data['kriterium']
-    ziel.bewertung = data['bewertung']
-    ziel.einschätzung = data['einschätzung']
-    ziel.geändert = data['geändert']
-    ziel.kommentar = data['kommentar']
-    ziel.author = data['author']
+    histore_eintrag = ZielHistorie(
+        ziel_id=ziel.id,
+        geändert=ziel.geändert,
+        changed_by=data['author'],
+        bewertung=ziel.bewertung,
+        comment=data.get('kommentar', ''),
+        abteilung=ziel.abteilung,
+        aussage=ziel.aussage
+    )
+    db.session.add(histore_eintrag)
+    
+    ziel.abteilung = data.get('abteilung', ziel.abteilung)
+    ziel.aussage = data.get('aussage', ziel.aussage)
+    ziel.kriterium = data.get('kriterium', ziel.kriterium)
+    ziel.bewertung = int(data.get('bewertung', ziel.bewertung))
+    ziel.einschätzung = data.get('einschätzung', ziel.einschätzung)
+    ziel.geändert = datetime.now(timezone.utc)
+    ziel.kommentar = data.get('kommentar', ziel.kommentar)
+    ziel.author = data.get('author', ziel.author)
     
     db.session.commit()
     return jsonify({"message": "Ziel aktualisiert"}), 200

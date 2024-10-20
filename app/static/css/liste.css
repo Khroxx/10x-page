@@ -64,3 +64,10 @@ tr{
     width: 50%;
     max-width: 50%;
 }
+.save-btn{
+    display: none;
+    
+}
+.table-img, .save-btn{
+    cursor: pointer;
+}

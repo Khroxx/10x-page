@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <title>Ziele Übersicht</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <script
+    src="https://code.jquery.com/jquery-3.7.1.js"
+    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/index.js') }}" defer></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 </head>
 <body>
@@ -14,25 +19,25 @@
     </div>
     <h1>TEX 10 Tabelle</h1>
     <table>
-        <tr>
-            <th>Abteilung</th>
-            <th>Aussage</th>
-            <th>Kriterium</th>
-            <th>Bewertung</th>
-            <th>Einschätzung</th>
-            <th>Geändert</th>
-            <th>Kommentar</th>
-            <th>Author</th>
+        <tr class="theader">
+            <th class="theaderhead"><p>Abteilung <span class="sort-symbol material-symbols-outlined">unfold_more</span></p></th>
+            <th class="theaderhead"><p>Aussage</p></th>
+            <th class="theaderhead"><p>Kriterien</p></th>
+            <th class="theaderhead"><p>Bewertung <span class="sort-symbol material-symbols-outlined">unfold_more</span></p></th>
+            <th class="theaderhead"><p>Kommentar</p></th>
+            <th class="theaderhead"><p>zuletzt geändert<span class="sort-symbol material-symbols-outlined">unfold_more</span></p></th>
+            <th class="theaderhead"><p>Änderer</p></th>
+            <th class="theaderhead"><p>Anregung</p></th> <!-- Einschätzng-->
         </tr>
-        <tr>
+        <tr class="theader">
             <th><input type="search" name="searchAbteilung" id="searchAbteilung" placeholder="Suche"></th>
             <th><input type="search" name="searchAussage" id="searchAussage" placeholder="Suche"></th>
             <th><input type="search" name="searchKriterium" id="searchKriterium" placeholder="Suche"></th>
             <th></th>
-            <th><input type="search" name="searchEinschätzung" id="searchEinschätzung" placeholder="Suche"></th>
-            <th></th>
             <th><input type="search" name="searchKommentar" id="searchKommentar" placeholder="Suche"></th>
+            <th></th>
             <th><input type="search" name="searchAuthor" id="searchAuthor" placeholder="Suche"></th>
+            <th><input type="search" name="searchEinschätzung" id="searchEinschätzung" placeholder="Suche"></th>
         </tr>
         {% for ziel in ziele %}
         <tr class="{% if loop.index0 % 2 == 0 %}first-td-child{% else %}second-td-child{% endif %}">
@@ -40,13 +45,13 @@
             <td>{{ ziel.aussage }}</td>
             <td>{{ ziel.kriterium }}</td>
             <td>{{ ziel.bewertung }}</td>
-            <td>{{ ziel.einschätzung }}</td>
-            <td>{{ ziel.geändert }}</td>
             <td>{{ ziel.kommentar }}</td>
+            <td>{{ ziel.geändert }}</td>
             <td>{{ ziel.author }}</td>
-            <td>E</td>
-            <td>D</td>
-            <td>A</td>
+            <td>{{ ziel.einschätzung }}</td>
+            <td><span class="material-symbols-outlined">edit</span></td>
+            <td><span class="material-symbols-outlined">delete</span></td>
+            <td><span class="material-symbols-outlined">history</span></td>
         </tr>
         {% endfor %}
     </table>

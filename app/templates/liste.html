@@ -25,7 +25,7 @@
             <a href="{{ url_for('main.add_ziel_form') }}" class="add-ziel">+</a>
         </div>
         <div class="totalscore">
-            Aktueller Gesamtscore:
+            Aktueller Gesamtscore: {{ durchschnitt }}
         </div>
         <div>
             <!-- <label for="abteilungen">Alle Abteilungen</label> -->
@@ -33,7 +33,7 @@
                 {% for abteilung in abteilungen %}
                 <option value="{{ abteilung }}">{{ abteilung }}</option>
                 {% endfor %}
-            </select>
+            </select>  
             <input type="search" name="" id="">
         </div>
         <div>
@@ -51,21 +51,24 @@
                     </tr>
                     {% for ziel in ziele %}
                     <tr class="{% if loop.index0 % 2 == 0 %}first-td-child{% else %}second-td-child{% endif %}">
-                        <td>{{ ziel.abteilung }}</td>
-                        <td>{{ ziel.aussage }}</td>
-                        <td>{{ ziel.bewertung }}</td>
-                        <td>{{ ziel.kriterium }}</td>
-                        <td>{{ ziel.einschätzung }}</td>
-                        <td>{{ ziel.geändert }}</td>
-                        <td>{{ ziel.author }}</td>
-                        <td>{{ ziel.kommentar }}</td>
-                        <td><img class="table-img" src="{{ url_for('static', filename='img/edit.png')}}" alt="E"></td>
-                        <td><img class="table-img" src="{{ url_for('static', filename='img/delete.png')}}" alt="D"></td>
+                        <td>{{ ziel.abteilung }}</td><!-- Abteilung -->
+                        <td class="editable" data-field="aussage">{{ ziel.aussage }}</td> <!-- Aussage -->
+                        <td class="editable" data-field="bewertung">{{ ziel.bewertung }}</td> <!-- Bewertung -->
+                        <td class="editable" data-field="kriterium">{{ ziel.kriterium }}</td> <!-- Kriterium -->
+                        <td class="editable" data-field="einschätzung">{{ ziel.einschätzung }}</td> <!-- Einschätzung -->
+                        <td>{{ ziel.geändert }}</td> <!-- Datum der Änderung -->
+                        <td>{{ ziel.author }}</td> <!-- Änderer -->
+                        <td class="editable" data-field="kommentar">{{ ziel.kommentar }}</td> <!-- Sonstiges -->
+                        <td><img class="table-img edit-btn" src="{{ url_for('static', filename='img/edit.png')}}" alt="E"></td>
+                        <td><img class="table-img delete-btn" src="{{ url_for('static', filename='img/delete.png')}}" alt="D"></td>
                         <td>
                             <a href="{{ url_for('main.get_ziel_historie', ziel_id=ziel.id) }}" class="history-link" data-has-history="{{ 'true' if ziel.historie else 'false'}}">
                                 <img class="table-img" src="{{ url_for('static', filename='img/refresh.webp')}}" alt="R">
                             </a>
                         </td>
+                    </tr>
+                    <tr class="ziel-id" style="display:none;">
+                        <td colspan="11">{{ ziel.id }}</td>
                     </tr>
                     {% endfor %}
                 </thead>
@@ -73,6 +76,7 @@
 
                 </tbody>
             </table>
+            <button id="save-btn" class="save-btn">Speichern</button>
         </div>
     </div>
     <div id="chart-view">

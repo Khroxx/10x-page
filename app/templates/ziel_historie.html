@@ -11,6 +11,10 @@
 </head>
 
 <body>
+    <div class="btn-container">
+        <a href="{{ url_for('main.get_table_data') }}" class="btn">TEX10 Tabelle</a>
+        <a href="{{ url_for('main.get_liste') }}" class="btn">Grafische Auswertung</a>
+    </div>
     <h1>Ziel Historie</h1>
     <table>
         <thead>
@@ -27,11 +31,21 @@
         </thead>
         <tbody>
             {% for eintrag in historie %}
-            <tr
-                class="{% if loop.index > 1 and eintrag.bewertung != historie[loop.index0 - 1].bewertung %}changed{% endif %}">
+            <!-- <tr
+                class="{% if loop.index > 1 and eintrag.bewertung != historie[loop.index0 - 1].bewertung %}changed{% endif %} 
+                {% if loop.index0 % 2 == 0 %}first-td-child{% else %}second-td-child{% endif %}">
                 <td>{{ eintrag.geändert.strftime('%d-%m-%Y') }}</td>
-                <td>{{ eintrag.changed_by }}</td>
-                <td>{{ eintrag.abteilung }}</td>
+                <td class="{% if loop.index == 1 or eintrag.changed_by != ziel.author %}changed{% endif %}">{{ eintrag.changed_by }}</td>
+                <td class="{% if loop.index == 1 or eintrag.bewertung != ziel.bewertung %}changed{% endif %}">{{ eintrag.bewertung }}</td>
+                <td class="{% if loop.index == 1 or eintrag.comment != ziel.kommentar %}changed{% endif %}">{{ eintrag.comment }}</td>
+                <td>{{ ziel.aussage }}</td>  Anregung?
+            </tr> -->
+            <tr class="{% if loop.index0 % 2 == 0 %}first-td-child{% else %}second-td-child{% endif %}">
+                <td>{{ eintrag.geändert.strftime('%d-%m-%Y') }}</td>
+                <td class="{% if loop.index < loop.length and eintrag.changed_by != historie[loop.index0 + 1].changed_by %}changed{% endif %}">{{ eintrag.changed_by }}</td>
+                <td class="{% if loop.index < loop.length and eintrag.bewertung != historie[loop.index0 + 1].bewertung %}changed{% endif %}">{{ eintrag.bewertung }}</td>
+                <td class="{% if loop.index < loop.length and eintrag.comment != historie[loop.index0 + 1].comment %}changed{% endif %}">{{ eintrag.comment }}</td>
+                <td class="{% if loop.index < loop.length and eintrag.comment != historie[loop.index0 + 1].comment %}changed{% endif %}">{{ eintrag.aussage }}</td> <!-- Anregung? -->
             </tr>
             {% endfor %}
         </tbody>

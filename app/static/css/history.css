@@ -1,3 +1,36 @@
 .changed {
     background-color: #68db15;
 }
+body{
+    background-color: rgb(199, 198, 198);
+
+}
+.first-td-child{
+    background-color: white;
+}
+.second-td-child{
+    background-color: transparent;
+}
+table{
+    width: 100%;
+    border-spacing: 0;
+    text-align: start;
+}
+th{
+    text-align: start;
+}
+tr{
+  text-align: start;
+}
+.btn-container{
+    position: absolute;
+    right: 10px;
+}
+.btn{
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    padding: 10px;
+    text-decoration: none;
+}

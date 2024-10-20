@@ -52,6 +52,7 @@ class ZielHistorie(db.Model):
     bewertung = db.Column(db.Integer, nullable=False)
     comment = db.Column(db.String(255), nullable=False)
     abteilung = db.Column(db.String(50), nullable=False)
+    aussage = db.Column(db.String(255), nullable=False)
     
     ziel = db.relationship('Ziel', backref=db.backref('historie', lazy=True))
 
