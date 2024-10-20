@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Ziele Übersicht</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-    <script
-    src="https://code.jquery.com/jquery-3.7.1.js"
-    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='js/index.js') }}" defer></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
 </head>
+
 <body>
     <div class="btn-container">
         <a href="{{ url_for('main.add_ziel_form') }}" class="btn">Ziel hinzufügen</a>
@@ -19,41 +20,74 @@
     </div>
     <h1>TEX 10 Tabelle</h1>
     <table>
-        <tr class="theader">
-            <th class="theaderhead"><p>Abteilung <span class="sort-symbol material-symbols-outlined">unfold_more</span></p></th>
-            <th class="theaderhead"><p>Aussage</p></th>
-            <th class="theaderhead"><p>Kriterien</p></th>
-            <th class="theaderhead"><p>Bewertung <span class="sort-symbol material-symbols-outlined">unfold_more</span></p></th>
-            <th class="theaderhead"><p>Kommentar</p></th>
-            <th class="theaderhead"><p>zuletzt geändert<span class="sort-symbol material-symbols-outlined">unfold_more</span></p></th>
-            <th class="theaderhead"><p>Änderer</p></th>
-            <th class="theaderhead"><p>Anregung</p></th> <!-- Einschätzng-->
-        </tr>
-        <tr class="theader">
-            <th><input type="search" name="searchAbteilung" id="searchAbteilung" placeholder="Suche"></th>
-            <th><input type="search" name="searchAussage" id="searchAussage" placeholder="Suche"></th>
-            <th><input type="search" name="searchKriterium" id="searchKriterium" placeholder="Suche"></th>
-            <th></th>
-            <th><input type="search" name="searchKommentar" id="searchKommentar" placeholder="Suche"></th>
-            <th></th>
-            <th><input type="search" name="searchAuthor" id="searchAuthor" placeholder="Suche"></th>
-            <th><input type="search" name="searchEinschätzung" id="searchEinschätzung" placeholder="Suche"></th>
-        </tr>
-        {% for ziel in ziele %}
-        <tr class="{% if loop.index0 % 2 == 0 %}first-td-child{% else %}second-td-child{% endif %}">
-            <td>{{ ziel.abteilung }}</td>
-            <td>{{ ziel.aussage }}</td>
-            <td>{{ ziel.kriterium }}</td>
-            <td>{{ ziel.bewertung }}</td>
-            <td>{{ ziel.kommentar }}</td>
-            <td>{{ ziel.geändert }}</td>
-            <td>{{ ziel.author }}</td>
-            <td>{{ ziel.einschätzung }}</td>
-            <td><span class="material-symbols-outlined">edit</span></td>
-            <td><span class="material-symbols-outlined">delete</span></td>
-            <td><span class="material-symbols-outlined">history</span></td>
-        </tr>
-        {% endfor %}
+        <thead>
+            <tr class="theader">
+                <th class="theaderhead">
+                    <p>Abteilung <span class="sort-symbol material-symbols-outlined">unfold_more</span></p>
+                </th>
+                <th class="theaderhead">
+                    <p>Aussage</p>
+                </th>
+                <th class="theaderhead">
+                    <p>Kriterien</p>
+                </th>
+                <th class="theaderhead">
+                    <p>Bewertung <span class="sort-symbol material-symbols-outlined">unfold_more</span></p>
+                </th>
+                <th class="theaderhead">
+                    <p>Kommentar</p>
+                </th>
+                <th class="theaderhead">
+                    <p>zuletzt geändert<span class="sort-symbol material-symbols-outlined">unfold_more</span></p>
+                </th>
+                <th class="theaderhead">
+                    <p>Änderer</p>
+                </th>
+                <th class="theaderhead">
+                    <p>Anregung</p>
+                </th> <!-- Einschätzng-->
+            </tr>
+            <tr class="theader">
+                <th><input type="search" name="searchAbteilung" id="searchAbteilung" placeholder="Suche"></th>
+                <th><input type="search" name="searchAussage" id="searchAussage" placeholder="Suche"></th>
+                <th><input type="search" name="searchKriterium" id="searchKriterium" placeholder="Suche"></th>
+                <th></th>
+                <th><input type="search" name="searchKommentar" id="searchKommentar" placeholder="Suche"></th>
+                <th></th>
+                <th><input type="search" name="searchAuthor" id="searchAuthor" placeholder="Suche"></th>
+                <th><input type="search" name="searchEinschätzung" id="searchEinschätzung" placeholder="Suche"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ziel in ziele %}
+            <tr class="{% if loop.index0 % 2 == 0 %}first-td-child{% else %}second-td-child{% endif %}">
+                <td>{{ ziel.abteilung }}</td>
+                <td class="editable" data-field="aussage">{{ ziel.aussage }}</td>
+                <td class="editable" data-field="kriterium">{{ ziel.kriterium }}</td>
+                <td class="editable" data-field="bewertung">{{ ziel.bewertung }}</td>
+                <td class="editable" data-field="kommentar">{{ ziel.kommentar }}</td>
+                <td>{{ ziel.geändert.strftime('%d.%m.%Y') }}</td>
+                <td class="editable" data-field="author">{{ ziel.author }}</td>
+                <td class="editable" data-field="einschätzung">{{ ziel.einschätzung }}</td>
+                <td><button class="btns"><span
+                            class="material-symbols-outlined material-icons edit-btn">edit</span></button></td>
+                <td><button class="btns"><span
+                            class="material-symbols-outlined material-icons delete-btn">delete</span></button></td>
+                <td>
+                    <a href="{{ url_for('main.get_ziel_historie', ziel_id=ziel.id) }}" class="history-link" data-has-history="{{ 'true' if ziel.historie else 'false'}}">
+                        <button class="btns">
+                            <span class="material-symbols-outlined material-icons history-btn">history</span>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            <tr class="ziel-id" style="display:none;">
+                <td>{{ ziel.id }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
+    <button id="save-btn" class="save-btn">Speichern</button>
 </body>
+
 </html>

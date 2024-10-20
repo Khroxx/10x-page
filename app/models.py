@@ -13,7 +13,7 @@ ABTEILUNGEN_CHOICES = [
     "Marketing",
     "ITP",
     "Produktion",
-    "Alle"
+    # "Alle"
 ]
 
 

@@ -11,6 +11,8 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET']) # TEX 10 Tabelle
 def get_table_data():
     ziele = Ziel.query.all()
+    # for ziel in ziele:
+    #     ziel.geändert = ziel.geändert.strftime('%d.%m.%Y')
     return render_template('index.html', ziele=ziele)
 
 
@@ -26,7 +28,7 @@ def get_liste():
 def get_ziele():
     ziele = Ziel.query.order_by(Ziel.geändert.desc()).all()
     data = [{
-        'datum': ziel.geändert.strftime('%d-%m-%Y'),
+        'datum': ziel.geändert.strftime('%d.%m.%Y'),
         'bewertung': ziel.bewertung,
         'abteilung': ziel.abteilung
     } for ziel in ziele]

@@ -11,8 +11,8 @@
 			  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 			  crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/liste.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="{{ url_for('static', filename='js/liste.js') }}" defer></script>
-    <!-- <script src="{{ url_for('static', filename='js/toggleView.js') }}" defer></script> -->
 </head>
 
 <body>
@@ -21,20 +21,20 @@
         <button class="list-btns" id="chart-button">Historische Auswertung</button>
     </div>
     <div id="table-view">
-        <div>
+        <div class="add-btn">
             <a href="{{ url_for('main.add_ziel_form') }}" class="add-ziel">+</a>
         </div>
         <div class="totalscore">
             Aktueller Gesamtscore: {{ durchschnitt }}
         </div>
-        <div>
-            <!-- <label for="abteilungen">Alle Abteilungen</label> -->
-            <select id="abteilung" name="abteilung" required>
+        <div class="search-container">
+            <select id="abteilung" name="abteilung" required class="abteilung-select">
+                <option value="alle">Alle</option>
                 {% for abteilung in abteilungen %}
                 <option value="{{ abteilung }}">{{ abteilung }}</option>
                 {% endfor %}
             </select>  
-            <input type="search" name="" id="">
+            <input class="textsearch" type="search" name="textsearch" id="textsearch" placeholder="Volltextsuche">
         </div>
         <div>
             <table>
@@ -56,14 +56,14 @@
                         <td class="editable" data-field="bewertung">{{ ziel.bewertung }}</td> <!-- Bewertung -->
                         <td class="editable" data-field="kriterium">{{ ziel.kriterium }}</td> <!-- Kriterium -->
                         <td class="editable" data-field="einschätzung">{{ ziel.einschätzung }}</td> <!-- Einschätzung -->
-                        <td>{{ ziel.geändert }}</td> <!-- Datum der Änderung -->
+                        <td>{{ ziel.geändert.strftime('%d.%m.%Y') }}</td> <!-- Datum der Änderung -->    
                         <td>{{ ziel.author }}</td> <!-- Änderer -->
                         <td class="editable" data-field="kommentar">{{ ziel.kommentar }}</td> <!-- Sonstiges -->
-                        <td><img class="table-img edit-btn" src="{{ url_for('static', filename='img/edit.png')}}" alt="E"></td>
-                        <td><img class="table-img delete-btn" src="{{ url_for('static', filename='img/delete.png')}}" alt="D"></td>
+                        <td><button class="btns"><span class="material-symbols-outlined edit-btn">edit</span></button></td>
+                        <td><button class="btns"><span class="material-symbols-outlined delete-btn">delete</span></button></td>
                         <td>
                             <a href="{{ url_for('main.get_ziel_historie', ziel_id=ziel.id) }}" class="history-link" data-has-history="{{ 'true' if ziel.historie else 'false'}}">
-                                <img class="table-img" src="{{ url_for('static', filename='img/refresh.webp')}}" alt="R">
+                                <button class="btns"><span class="material-symbols-outlined history-btn">history</span></button>
                             </a>
                         </td>
                     </tr>
