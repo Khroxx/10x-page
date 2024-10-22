@@ -6,12 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liste + Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <script
 			  src="https://code.jquery.com/jquery-3.7.1.js"
 			  integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 			  crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/liste.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
     <script src="{{ url_for('static', filename='js/liste.js') }}" defer></script>
 </head>
 
@@ -40,18 +43,20 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Abteilung / Rubrik</th>
-                        <th>Aussage</th>
-                        <th>Status</th>
-                        <th>Wie stellen wir fest ob erreicht?</th>
-                        <th>letzte Änderung / Kommentar</th>
-                        <th>Datum letzte Änderung</th>
-                        <th>Änderer</th>
-                        <th>Sonstiges</th>
+                        <th><p>Abteilung / Rubrik<span class="material-symbols-outlined">unfold_more</span></p></th>
+                        <th><p>Aussage </p></th>
+                        <th><p>Status <span class="material-symbols-outlined">unfold_more</span></p></th>
+                        <th><p>Wie stellen wir fest ob erreicht? </p></th>
+                        <th><p>letzte Änderung / Kommentar </p></th>
+                        <th><p>Datum letzte Änderung <span class="material-symbols-outlined">unfold_more</span></p></th>
+                        <th><p>Änderer </p></th>
+                        <th><p>Sonstiges </p></th>
                     </tr>
+                </thead>
+                <tbody>
                     {% for ziel in ziele %}
                     <tr class="{% if loop.index0 % 2 == 0 %}first-td-child{% else %}second-td-child{% endif %}">
-                        <td>{{ ziel.abteilung }}</td><!-- Abteilung -->
+                        <td id="abteilungZiel">{{ ziel.abteilung }}</td><!-- Abteilung -->
                         <td class="editable" data-field="aussage">{{ ziel.aussage }}</td> <!-- Aussage -->
                         <td class="editable" data-field="bewertung">{{ ziel.bewertung }}</td> <!-- Bewertung -->
                         <td class="editable" data-field="kriterium">{{ ziel.kriterium }}</td> <!-- Kriterium -->
@@ -71,8 +76,6 @@
                         <td colspan="11">{{ ziel.id }}</td>
                     </tr>
                     {% endfor %}
-                </thead>
-                <tbody>
 
                 </tbody>
             </table>
@@ -84,18 +87,19 @@
             <div class="auswahl-half">
                 <h1>Abteilung (Mehrfachauswahl):</h1>
                 <select id="abteilung-select" multiple>
-                    {% for ziel in ziele %}
-                        <option value="{{ ziel.abteilung }}">{{ ziel.abteilung }}</option>
+                    {% for abteilung in abteilungen %}
+                        <option value="{{ abteilung }}">{{ abteilung }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div  class="auswahl-half">
                 <h1>Von:</h1>
-                <input type="date" name="" id="">
+                <input type="date" id="start-date">
                 <h1>Bis:</h1>
-                <input type="date" name="" id="">
+                <input type="date" id="end-date">
             </div>
         </div>
+        <button class="reload-btn" id="reload-btn">Laden und Anzeigen</button>
         <canvas id="myChart"></canvas>
     </div>
 </body>

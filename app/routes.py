@@ -7,15 +7,13 @@ from . import db
 
 main = Blueprint('main', __name__)
 
-
+# renders index.html with data ziele
 @main.route('/', methods=['GET']) # TEX 10 Tabelle
 def get_table_data():
     ziele = Ziel.query.all()
-    # for ziel in ziele:
-    #     ziel.geändert = ziel.geändert.strftime('%d.%m.%Y')
     return render_template('index.html', ziele=ziele)
 
-
+# renders liste.html
 @main.route('/liste', methods=['GET']) # grafische Auswertung
 def get_liste():
     ziele = Ziel.query.all()
@@ -23,7 +21,7 @@ def get_liste():
     durchschnitt = round(durchschnitt, 2)  
     return render_template('liste.html', ziele=ziele, abteilungen=ABTEILUNGEN_CHOICES, durchschnitt=durchschnitt)
 
-
+# not used?
 @main.route('/api/ziele')
 def get_ziele():
     ziele = Ziel.query.order_by(Ziel.geändert.desc()).all()
@@ -34,13 +32,13 @@ def get_ziele():
     } for ziel in ziele]
     return jsonify(data)
 
-
-@main.route('/add-ziel-form', methods=['GET']) # Um ein Ziel hinzuzufügen
+# renders add_ziel.html with data
+@main.route('/add-ziel-form', methods=['GET'])  
 def add_ziel_form():
     return render_template('add_ziel.html', abteilungen=ABTEILUNGEN_CHOICES, authors=PERSONAL_CHOICES,
                            bewertungen=BEWERTUNG_CHOICES)
 
-
+# Submit form to send data to create Ziel
 @main.route('/submit-ziel', methods=['POST'])
 def submit_ziel():
     abteilung = request.form.get('abteilung')
@@ -60,6 +58,7 @@ def submit_ziel():
 
     return redirect(url_for('main.get_table_data'))
 
+# addes Ziel to DB
 @main.route('/add-ziel', methods=['POST'])
 def add_ziel():
     data = request.get_json()
@@ -73,7 +72,7 @@ def add_ziel():
 
     return jsonify({"message": "Ziel hinzugefügt"}), 201
 
-
+# edits Ziel with id and creates ZielHistorie
 @main.route('/edit-ziel/<int:id>', methods=['POST'])
 def edit_ziel(id):
     data = request.get_json()
@@ -104,6 +103,7 @@ def edit_ziel(id):
     db.session.commit()
     return jsonify({"message": "Ziel aktualisiert"}), 200
 
+# deletes Ziel with id
 @main.route('/delete-ziel/<int:id>', methods=['DELETE'])
 def delete_ziel(id):
     ziel = Ziel.query.get(id)
@@ -114,8 +114,25 @@ def delete_ziel(id):
     db.session.commit()
     return jsonify({"message": "Ziel gelöscht"}), 200
 
+# sends data for Ziel Historie
 @main.route('/ziel/<int:ziel_id>/historie', methods=['GET'])
 def get_ziel_historie(ziel_id):
     ziel = Ziel.query.get_or_404(ziel_id)
     historie = ZielHistorie.query.filter_by(ziel_id=ziel_id).order_by(ZielHistorie.geändert.desc()).all()
     return render_template('ziel_historie.html', ziel=ziel, historie=historie)
+
+# sends Ziel Historie data for ChartJS
+@main.route('/api/ziele_historie', methods=['GET'])
+def get_ziele_historie():
+    ziele = Ziel.query.all()
+    data = []
+    for ziel in ziele:
+        historie = ZielHistorie.query.filter_by(ziel_id=ziel.id).order_by(ZielHistorie.geändert.asc()).all()
+        for eintrag in historie:
+            data.append({
+                'ziel_id': ziel.id,
+                'datum': eintrag.geändert.strftime('%d.%m.%Y'),
+                'bewertung': eintrag.bewertung,
+                'abteilung': ziel.abteilung
+            })
+    return jsonify(data)

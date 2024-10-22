@@ -1,0 +1,7 @@
+body{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(199, 198, 198);
+    gap: 40px;
+}

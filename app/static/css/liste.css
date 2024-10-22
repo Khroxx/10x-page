@@ -1,10 +1,10 @@
-body{
+/* body{
     margin: 20px;
     display: flex;
     flex-direction: column;
     background-color: rgb(199, 198, 198);
     gap: 40px;
-}
+} */
 #table-view{
     display: flex;
     flex-direction: column;
@@ -97,4 +97,14 @@ tr{
     background-color: transparent;
     cursor: pointer;
     border: unset;
+}
+.reload-btn{
+    width: 100%;
+    background-color: blue;
+    border-radius: 4px;
+    padding: 10px;
+    color: white;
+    margin: 10px 0;
+    border: unset;
+    cursor: pointer;
 }
