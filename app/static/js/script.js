@@ -59,8 +59,9 @@ function makeRowEditable(row) {
                 $('#save-btn').hide();
             },
             error: function(xhr) {
-                alert(`Fehler: ${xhr.responseJSON.message ? xhr.responseJSON.message : 'Unbekannter Fehler'}`);
-            }
+              const errorMessage = xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Unbekannter Fehler';
+              alert(`Fehler: ${errorMessage}`);
+          }   
         });
     }
 
@@ -83,4 +84,17 @@ function makeRowEditable(row) {
                 updateRowColors();
             }
         });
+
+        function updateRowColors() {
+          $('table tbody tr').not('.ziel-id').each(function(index) {
+              $(this).removeClass('first-td-child second-td-child');
+              if (index % 2 === 0) {
+                  $(this).addClass('first-td-child');
+              } else {
+                  $(this).addClass('second-td-child');
+              }
+          });
+      }
+
+      
 });
