@@ -62,7 +62,7 @@
                         <td class="editable" data-field="kriterium">{{ ziel.kriterium }}</td> <!-- Kriterium -->
                         <td class="editable" data-field="einschätzung">{{ ziel.einschätzung }}</td> <!-- Einschätzung -->
                         <td>{{ ziel.geändert.strftime('%d.%m.%Y') }}</td> <!-- Datum der Änderung -->    
-                        <td>{{ ziel.author }}</td> <!-- Änderer -->
+                        <td class="editable" data-field="author">{{ ziel.author }}</td> <!-- Änderer -->
                         <td class="editable" data-field="kommentar">{{ ziel.kommentar }}</td> <!-- Sonstiges -->
                         <td><button class="btns"><span class="material-symbols-outlined edit-btn">edit</span></button></td>
                         <td><button class="btns"><span class="material-symbols-outlined delete-btn">delete</span></button></td>
@@ -87,8 +87,8 @@
             <div class="auswahl-half">
                 <h1>Abteilung (Mehrfachauswahl):</h1>
                 <select id="abteilung-select" multiple>
-                    {% for abteilung in abteilungen %}
-                        <option value="{{ abteilung }}">{{ abteilung }}</option>
+                    {% for ziel in ziele %}
+                        <option value="{{ ziel.abteilung }}">{{ ziel.abteilung }}</option>
                     {% endfor %}
                 </select>
             </div>

@@ -28,13 +28,6 @@ $(document).ready(function () {
     updateChart(selectedAbteilungen, startDate, endDate);
   });
 
-  // $("#start-date, #end-date").on("change", function () {
-  //   const selectedAbteilungen = $("#abteilung-select").val();
-  //   const startDate = $("#start-date").val();
-  //   const endDate = $("#end-date").val();
-  //   updateChart(selectedAbteilungen, startDate, endDate);
-  // });
-
   $('#save-btn').on('click', function () {
     updateRatingColors();
   });
@@ -61,9 +54,30 @@ $(document).ready(function () {
   updateChart();
 
 });
+
+function updateRatingColors() {
+  const colors = [
+    "#ff0000", // 1 - Rot
+    "#ff4000", // 2
+    "#ff8000", // 3
+    "#ffbf00", // 4
+    "#ffff00", // 5 - Gelb
+    "#bfff00", // 6
+    "#80ff00", // 7
+    "#40ff00", // 8
+    "#00ff00", // 9
+    "#00ff40"  // 10 - Grün
+  ];
+
+  $('td[data-field="bewertung"]').each(function () {
+    const bewertung = parseInt($(this).text(), 10);
+    if (bewertung >= 1 && bewertung <= 10) {
+      $(this).css('background-color', colors[bewertung - 1]);
+    }
+  });
+}
+
 // GET data for chartJS
-
-
 function updateChart(selectedAbteilungen = [], startDate = null, endDate = null) {
   $.ajax({
     url: "/api/ziele_historie",
@@ -86,6 +100,11 @@ function updateChart(selectedAbteilungen = [], startDate = null, endDate = null)
       const filteredData = selectedAbteilungen.length > 0
         ? Object.keys(groupedData).filter(abteilung => selectedAbteilungen.includes(abteilung))
         : Object.keys(groupedData);
+
+      if (filteredData.length === 0 || !groupedData[filteredData[0]]) {
+        console.error("Chart data is empty. It will appear after changing a Ziel")
+        return;
+      }
 
       const datasets = filteredData.map((abteilung) => ({
         label: abteilung,
@@ -283,27 +302,7 @@ $(document).ready(function () {
     });
   }
 
-  function updateRatingColors() {
-    const colors = [
-      "#ff0000", // 1 - Rot
-      "#ff4000", // 2
-      "#ff8000", // 3
-      "#ffbf00", // 4
-      "#ffff00", // 5 - Gelb
-      "#bfff00", // 6
-      "#80ff00", // 7
-      "#40ff00", // 8
-      "#00ff00", // 9
-      "#00ff40"  // 10 - Grün
-    ];
 
-    $('td[data-field="bewertung"]').each(function () {
-      const bewertung = parseInt($(this).text(), 10);
-      if (bewertung >= 1 && bewertung <= 10) {
-        $(this).css('background-color', colors[bewertung - 1]);
-      }
-    });
-  }
 
   updateRatingColors();
 });

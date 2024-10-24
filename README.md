@@ -28,3 +28,11 @@ python run.py
 ```
 The Server is now up and running 
 
+3. Run tests with pytest
+```bash 
+pytest -s app/test.py
+```
+and/or check coverage:
+```bash
+pytest --cov=app -v
+```

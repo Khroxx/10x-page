@@ -22,12 +22,12 @@ def get_liste():
         durchschnitt = round(durchschnitt, 2)  
     else: 
         durchschnitt = 0    
-    return render_template('liste.html', title='liste', ziele=ziele, abteilungen=ABTEILUNGEN_CHOICES, durchschnitt=durchschnitt)
+    return render_template('liste.html', ziele=ziele, abteilungen=ABTEILUNGEN_CHOICES, durchschnitt=durchschnitt)
 
 # renders add_ziel.html with data
 @main.route('/add-ziel-form', methods=['GET'])  
 def add_ziel_form():
-    return render_template('add_ziel.html', title='add_ziel', abteilungen=ABTEILUNGEN_CHOICES, authors=PERSONAL_CHOICES,
+    return render_template('add_ziel.html', abteilungen=ABTEILUNGEN_CHOICES, authors=PERSONAL_CHOICES,
                            bewertungen=BEWERTUNG_CHOICES)
 
 # Submit form to send data to create Ziel
@@ -109,7 +109,7 @@ def delete_ziel(id):
 # sends data for Ziel Historie
 @main.route('/ziel/<int:ziel_id>/historie', methods=['GET'])
 def get_ziel_historie(ziel_id):
-    # ziel = Ziel.query.get_or_404(ziel_id)
+    # ziel = Ziel.query.get_or_404(ziel_id) 
     ziel = db.session.get(Ziel, id)
     historie = ZielHistorie.query.filter_by(ziel_id=ziel_id).order_by(ZielHistorie.geändert.desc()).all()
     return render_template('ziel_historie.html', ziel=ziel, historie=historie)
